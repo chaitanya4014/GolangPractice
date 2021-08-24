@@ -6,13 +6,11 @@ import (
 )
 
 func server1(ch chan string) {
-	time.Sleep(4 * time.Second)
-	ch <- "from server 1"
+	ch <- "From Server 1"
 }
 
 func server2(ch chan string) {
-	time.Sleep(3 * time.Second)
-	ch <- "from server 2"
+	ch <- "From Server 2"
 }
 
 func main() {
@@ -21,12 +19,14 @@ func main() {
 
 	go server1(out1)
 	go server2(out2)
-
+	time.Sleep(1 * time.Second)
 	select {
 	case s1 := <-out1:
 		fmt.Println(s1)
-
 	case s2 := <-out2:
 		fmt.Println(s2)
+
+	default:
+		fmt.Println("default case")
 	}
 }
